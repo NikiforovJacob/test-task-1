@@ -15,13 +15,10 @@ class HeaderUserStatus extends PureComponent {
     const statusInput = (
       <form onSubmit={toggleEditing}>
         <InputTextControlled
-          key="userStatus"
           value={userStatus}
           name="userStatus"
           onChange={onChange}
-          placeholder="Логин"
-          error=""
-          required={false}
+          placeholder="Новый статус:"
         />
         <button type="submit">Сохранить</button>
       </form>
@@ -39,7 +36,7 @@ class HeaderUserStatus extends PureComponent {
           <div>Здравствуйте, </div>
           <div>{userName}</div>
           <div>
-            <input type="button" value="Сменить статус" onClick={toggleEditing} />
+            {isEditing ? null : <input type="button" value="Сменить статус" onClick={toggleEditing} />}
           </div>
         </p>
         <div>

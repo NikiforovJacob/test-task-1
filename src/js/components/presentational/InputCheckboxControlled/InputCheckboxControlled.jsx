@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 
-class InpuTextControlled extends PureComponent {
+class InputCheckboxControlled extends PureComponent {
   render() {
     const {
       name,
@@ -36,8 +36,8 @@ class InpuTextControlled extends PureComponent {
   }
 }
 
-InpuTextControlled.defaultProps = {
-  type: 'text',
+InputCheckboxControlled.defaultProps = {
+  type: 'checkbox',
   error: '',
   required: false,
   autoComplete: 'off',
@@ -45,8 +45,8 @@ InpuTextControlled.defaultProps = {
   inputClass: '',
 };
 
-InpuTextControlled.propTypes = {
-  value: PropTypes.string.isRequired,
+InputCheckboxControlled.propTypes = {
+  checked: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
@@ -58,4 +58,4 @@ InpuTextControlled.propTypes = {
   inputClass: PropTypes.string,
 };
 
-export default InpuTextControlled;
+export default InputCheckboxControlled;

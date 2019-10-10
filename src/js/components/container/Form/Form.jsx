@@ -1,60 +1,68 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import InputTextControlled from '../../presentational/InputTextControlled/InputTextControlled.jsx';
-import FormWrapper from '../containers/FormWrapper';
-
-// import cities from '../../../../data/cities.json';
+import InputListControlled from '../../presentational/InputListControlled/InputListControlled.jsx';
+import InputCheckboxControlled from '../../presentational/InputCheckboxControlled/InputCheckboxControlled.jsx';
 
 class Form extends PureComponent {
   render() {
     const {
-      city,
-      password,
-      email,
-      lastChangeDataTime,
+      data,
       errors,
+      cities,
       handleInput,
       handleSubmit,
+      handleBoolToggle,
     } = this.props;
-
-    //  this.cities = cities
-    //   .filter((city) => city.population > 50000)
-    //   .reduce((acc, city) => {
 
     return (
       <div className="openBill">
         <form className="openBillForm" onSubmit={handleSubmit}>
-          <InputTextControlled
-            key="username"
-            value={username}
-            name="username"
+          <InputListControlled
+            value={data.city}
+            name="city"
             onChange={handleInput}
-            placeholder="Логин"
-            error={errors.username}
-            required
+            placeholder="Город"
+            error={errors.city}
+            required={false}
+            data={cities}
+          />
+          <hr />
+          <InputTextControlled
+            value={data.password}
+            name="password"
+            onChange={handleInput}
+            placeholder="Пароль"
+            error={errors.password}
+            type="password"
           />
           <InputTextControlled
-            key="phone"
-            value={phone}
-            name="phone"
+            value={data.passwordRepeat}
+            name="passwordRepeat"
             onChange={handleInput}
-            placeholder="Телефон"
-            error={errors.phone}
-            required
+            placeholder="Пароль еще раз"
+            error={errors.passwordRepeat}
+            type="password"
           />
+          <hr />
           <InputTextControlled
-            key="email"
-            value={email}
-            type="email"
+            value={data.email}
             name="email"
             onChange={handleInput}
             placeholder="Электронная почта"
             error={errors.email}
-            required
+          />
+          <InputCheckboxControlled
+            checked={data.acceptedEmailSending}
+            name="acceptedEmailSending"
+            onChange={handleBoolToggle}
+            placeholder="Я согласен"
+            type="checkbox"
           />
           <button type="submit" className="submitBtn">
             Изменить
           </button>
+          {data.lastChangeDataTime}
         </form>
       </div>
     );
@@ -63,17 +71,23 @@ class Form extends PureComponent {
 
 Form.propTypes = {
   data: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    passwordRepeat: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
+    acceptedEmailSending: PropTypes.bool.isRequired,
+    lastChangeDataTime: PropTypes.string.isRequired,
   }).isRequired,
   errors: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    passwordRepeat: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
   }).isRequired,
+  cities: PropTypes.PropTypes.arrayOf(PropTypes.object).isRequired,
   handleInput: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  handleBoolToggle: PropTypes.func.isRequired,
 };
 
-export default FormWrapper(Form);
+export default Form;

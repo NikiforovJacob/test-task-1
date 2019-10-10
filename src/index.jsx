@@ -9,6 +9,7 @@ const {
   city,
   password,
   email,
+  acceptedEmailSending,
   lastChangeDataTime,
 } = userData;
 
@@ -19,5 +20,6 @@ ReactDOM.render(<AccountDataChangeForm
   city={city}
   password={password}
   email={email}
+  acceptedEmailSending={acceptedEmailSending}
   lastChangeDataTime={lastChangeDataTime}
 />, rootElement);

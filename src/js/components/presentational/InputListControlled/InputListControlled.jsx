@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 
-class InpuTextControlled extends PureComponent {
+class InputListControlled extends PureComponent {
   render() {
     const {
       name,
@@ -10,6 +10,7 @@ class InpuTextControlled extends PureComponent {
       labelClass,
       inputClass,
       placeholder,
+      data,
       ...props
     } = this.props;
     return (
@@ -18,7 +19,7 @@ class InpuTextControlled extends PureComponent {
         htmlFor={`id-${name}`}
       >
         <span className="span">{placeholder}</span>
-        <input
+        <select
           {...props}
           className={cn(
             'input',
@@ -29,14 +30,17 @@ class InpuTextControlled extends PureComponent {
           id={`id-${name}`}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-        />
+        >
+          <option key="empty" value="" />
+          {data.map((city) => <option key={city.city} value={city.city}>{city.city}</option>)}
+        </select>
         {!!error && <span className="errorText">{error}</span>}
       </label>
     );
   }
 }
 
-InpuTextControlled.defaultProps = {
+InputListControlled.defaultProps = {
   type: 'text',
   error: '',
   required: false,
@@ -45,11 +49,12 @@ InpuTextControlled.defaultProps = {
   inputClass: '',
 };
 
-InpuTextControlled.propTypes = {
+InputListControlled.propTypes = {
   value: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
+  data: PropTypes.PropTypes.arrayOf(PropTypes.object).isRequired,
   error: PropTypes.string,
   type: PropTypes.string,
   required: PropTypes.bool,
@@ -58,4 +63,4 @@ InpuTextControlled.propTypes = {
   inputClass: PropTypes.string,
 };
 
-export default InpuTextControlled;
+export default InputListControlled;

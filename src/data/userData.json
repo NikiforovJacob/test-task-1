@@ -4,5 +4,6 @@
   "city": "Красноярск",
   "password": "12345",
   "email": "example@somemail.com",
+  "acceptedEmailSending": true,
   "lastChangeDataTime": "15 мая 2021 в 14:55:17"
 }

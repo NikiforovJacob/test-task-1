@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HeaderUserStatus from '../../presentational/HeaderUserStatus/HeaderUserStatus.jsx';
-import StatusWrapper from '../../HOCs/StatusWrapper/StatusWrapper.jsx';
+import WrapperStatus from '../../HOCs/StatusWrapper/WrapperStatus.jsx';
 import Form from '../Form/Form.jsx';
+import FormWrapper from '../../HOCs/FormWrapper/FormWrapper.jsx';
 
-const HeaderUserStatusWithState = StatusWrapper(HeaderUserStatus);
+const HeaderUserStatusWithState = WrapperStatus(HeaderUserStatus);
+const WrappedForm = FormWrapper(Form);
 
 class AccountDataChangeForm extends React.PureComponent {
   render() {
     const {
       userName,
       userStatus,
-      city,
-      password,
-      email,
-      lastChangeDataTime,
+      ...props
     } = this.props;
 
     return (
@@ -23,11 +22,8 @@ class AccountDataChangeForm extends React.PureComponent {
           userName={userName}
           userStatus={userStatus}
         />
-        <Form
-          city={city}
-          password={password}
-          email={email}
-          lastChangeDataTime={lastChangeDataTime}
+        <WrappedForm
+          {...props}
         />
       </div>
     );
@@ -40,6 +36,7 @@ AccountDataChangeForm.propTypes = {
   city: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  acceptedEmailSending: PropTypes.bool.isRequired,
   lastChangeDataTime: PropTypes.string.isRequired,
 };
 
