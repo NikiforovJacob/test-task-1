@@ -31,8 +31,7 @@ class InputListControlled extends PureComponent {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         >
-          <option key="empty" value="" />
-          {data.map((city) => <option key={city.city} value={city.city}>{city.city}</option>)}
+          {[{ city: '' }, ...data].map((city) => <option key={city.city} value={city.city}>{city.city}</option>)}
         </select>
         {!!error && <span className="errorText">{error}</span>}
       </label>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cities from '../../../../data/cities.json';
+import getDateRu from '../../../utils/utils.jsx';
 
 export default function WrapperFrom(WrappedComponent) {
   class FormWrapped extends Component {
@@ -16,6 +17,7 @@ export default function WrapperFrom(WrappedComponent) {
       } = this.props;
 
       this.state = {
+        isFetched: false,
         data: {
           city,
           password,
@@ -37,13 +39,20 @@ export default function WrapperFrom(WrappedComponent) {
         // eslint-disable-next-line react/destructuring-assignment
         passwordRepeat: (value) => ((value === this.state.data.password) ? null : 'Пароли не совпадают'),
         email: (value) => (RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i).test(value) ? null : 'Неверный E-mail'),
+        acceptedEmailSending: () => null,
         lastChangeDataTime: () => null,
         city: () => null,
       };
 
       this.validate = (name, value) => {
         if (value.length === 0) {
-          this.setState(({ errors }) => ({ errors: { ...errors, [name]: 'поле не должно быть пустым' } }));
+          const ruFielsNameMap = new Map([
+            ['password', 'пароль'],
+            ['passwordRepeat', 'пароль'],
+            ['email', 'E-mail'],
+            ['city', 'город'],
+          ]);
+          this.setState(({ errors }) => ({ errors: { ...errors, [name]: `Укажите ${ruFielsNameMap.get(name)}` } }));
           return false;
         }
 
@@ -52,14 +61,34 @@ export default function WrapperFrom(WrappedComponent) {
           this.setState(({ errors }) => ({ errors: { ...errors, [name]: error } }));
           return false;
         }
+        this.setState(({ errors }) => ({ errors: { ...errors, [name]: '' } }));
         return true;
       };
 
       this.cities = cities
-        .filter((city) => city.population > 50000);
-        // .reduce((acc, city) => {
-          
-        // })
+        .filter((c) => c.population > 50000)
+        .sort(
+          (a, b) => {
+            if (a.city > b.city) {
+              return 1;
+            }
+            if (a.city < b.city) {
+              return -1;
+            }
+            return 0;
+          },
+        )
+        .reduce((acc, item, i, arr) => {
+          const isItemBigger = Number(item.population) > Number(acc.population);
+          if (i === (arr.length - 1)) {
+            const largestCity = isItemBigger ? item : acc;
+            return [largestCity, ...(arr.filter((curr) => curr !== largestCity))];
+          }
+          if (isItemBigger) {
+            return item;
+          }
+          return acc;
+        }, { population: 0 });
     }
 
     handleSubmit = (e) => {
@@ -69,14 +98,10 @@ export default function WrapperFrom(WrappedComponent) {
         (sum, item) => this.validate(item, data[item]) && sum,
         true,
       );
+
       if (isValid) {
-        this.setState(
-          ({ data }) => ({ data: { ...data, lastChangeDataTime: Date() } }),
-          () => {
-            console.log(JSON.stringify(data));
-          },
-        );
-        console.log(JSON.stringify(data));
+        const newStateData = { data: { ...data, lastChangeDataTime: getDateRu() } };
+        this.setState(newStateData, console.log(JSON.stringify(newStateData.data)));
       }
     };
 
