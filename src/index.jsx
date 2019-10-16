@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AccountDataChangeForm from './js/components/container/AccountDataChangeForm/AccountDataChangeForm.jsx';
+import AccountDataChangeForm from './js/components/AccountDataChangeForm/AccountDataChangeForm.jsx';
 import userData from './data/userData.json';
 
 const {

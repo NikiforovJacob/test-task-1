@@ -26,7 +26,7 @@ class HeaderUserStatus extends PureComponent {
           className={s.header__statusInputBtm}
           type="submit"
         >
-            Сохранить
+          Сохранить
         </button>
       </form>
     );

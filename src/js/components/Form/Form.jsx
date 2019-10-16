@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import InputTextControlled from '../../presentational/InputTextControlled/InputTextControlled.jsx';
-import InputSelectControlled from '../../presentational/InputSelectControlled/InputSelectControlled.jsx';
-import InputCheckboxControlled from '../../presentational/InputCheckboxControlled/InputCheckboxControlled.jsx';
+import InputTextControlled from '../InputTextControlled/InputTextControlled.jsx';
+import InputSelectControlled from '../InputSelectControlled/InputSelectControlled.jsx';
+import InputCheckboxControlled from '../InputCheckboxControlled/InputCheckboxControlled.jsx';
 
 import s from './Form.styl';
 

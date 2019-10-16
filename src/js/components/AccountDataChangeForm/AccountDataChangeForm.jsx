@@ -1,22 +1,17 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import HeaderUserStatus from '../../presentational/HeaderUserStatus/HeaderUserStatus.jsx';
-import WrapperStatus from '../../HOCs/WrapperHeader/WrapperHeader.jsx';
-import Form from '../Form/Form.jsx';
-import FormWrapper from '../../HOCs/FormWrapper/FormWrapper.jsx';
+import HeaderUserStatus from '../HeaderUserStatus/HeaderUserStatusСontainer.jsx';
+import Form from '../Form/FormContainer.jsx';
 
 import styles from './AccountDataChangeForm.styl';
 
-const HeaderUserStatusWithState = WrapperStatus(HeaderUserStatus);
-const WrappedForm = FormWrapper(Form);
-
 const AccountDataChangeForm = ({ userName, userStatus, ...props }) => (
   <div className={styles.page}>
-    <HeaderUserStatusWithState
+    <HeaderUserStatus
       userName={userName}
       userStatus={userStatus}
     />
-    <WrappedForm
+    <Form
       {...props}
     />
   </div>

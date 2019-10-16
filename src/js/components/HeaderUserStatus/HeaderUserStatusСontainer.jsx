@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import HeaderUserStatus from './HeaderUserStatus.jsx';
 
 function WrapperStatus(WrappedComponent) {
   class StatusWrapped extends PureComponent {
@@ -44,4 +45,4 @@ function WrapperStatus(WrappedComponent) {
   return StatusWrapped;
 }
 
-export default WrapperStatus;
+export default WrapperStatus(HeaderUserStatus);

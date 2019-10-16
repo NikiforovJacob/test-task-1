@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import cities from '../../../../data/cities.json';
-import getDateRu from '../../../utils/utils.jsx';
+import cities from '../../../data/cities.json';
+import getDateRu from '../../utils/utils.jsx';
+import Form from './Form.jsx';
 
-export default function WrapperFrom(WrappedComponent) {
+function WrapperFrom(WrappedComponent) {
   class FormWrapped extends PureComponent {
     constructor(props) {
       super(props);
@@ -152,3 +153,5 @@ export default function WrapperFrom(WrappedComponent) {
 
   return FormWrapped;
 }
+
+export default WrapperFrom(Form);
