@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cities from '../../../../data/cities.json';
 import getDateRu from '../../../utils/utils.jsx';
 
 export default function WrapperFrom(WrappedComponent) {
-  class FormWrapped extends Component {
+  class FormWrapped extends PureComponent {
     constructor(props) {
       super(props);
 
@@ -100,7 +100,7 @@ export default function WrapperFrom(WrappedComponent) {
       );
 
       if (isValid) {
-        const newStateData = { data: { ...data, lastChangeDataTime: getDateRu() } };
+        const newStateData = { data: { ...data, lastChangeDataTime: getDateRu(new Date()) } };
         this.setState(newStateData, console.log(JSON.stringify(newStateData.data)));
       }
     };

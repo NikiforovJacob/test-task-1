@@ -1,0 +1,89 @@
+.fieldText_compose
+    display flex
+    flex-wrap wrap
+    height auto
+    margin 32px 0px 32px 0px
+
+@media (min-width: 680px)
+  .fieldText
+    composes fieldText_compose
+    flex-direction row
+    max-width 920px
+  
+  .fieldText__inputNameBlock
+    width 23%
+    min-width 227px
+    height 31px
+
+  .fieldText__inputBlock
+    flex 0.95
+    height 31px
+    margin 0px
+
+  .fieldText__inputDescriptionBlock
+    display flex
+    flex 1
+    height 31px
+    padding-left 31px
+
+@media (max-width: 680px)
+  .fieldText
+    composes fieldText_compose
+    flex-direction column
+    width 100%
+
+  .fieldText__inputNameBlock
+    width 280px
+    height 31px
+    margin 0px auto
+
+  .fieldText__inputBlock
+    order 3
+    width 265px
+    height 31px
+    margin 0px auto
+
+  .fieldText__inputDescriptionBlock
+    display flex
+    order 2
+    width 280px
+    min-width 200px
+    height auto
+    padding-left 12px
+    margin: 10px auto
+
+.fieldText__inputName
+  font-family Arial
+  font-size 21px
+  padding-left 10px
+  line-height 31px
+
+.fieldText__input
+  border 1px solid #999999
+  height 27px
+  width 100%
+  font-size 16px
+  font-family Arial
+  padding-left 12px
+
+.fieldText__inputError
+  border 1px solid red
+  height 27px
+  width 100%
+  font-size 16px
+  font-family Arial
+  padding-left 12px
+
+.fieldText__inputDescription
+  font-family Arial
+  font-size 12px
+  line-height 20px
+  color #999999
+  margin auto 0px
+
+.fieldText__inputErrorDescription
+  font-family Arial
+  font-size 12px
+  line-height 20px
+  color #FF0000
+  margin-right auto

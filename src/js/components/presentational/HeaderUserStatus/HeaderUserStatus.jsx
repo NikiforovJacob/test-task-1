@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import InputTextControlled from '../InputTextControlled/InputTextControlled.jsx';
+import InputTextAreaControlled from '../InputTextAreaControlled/InputTextAreaControlled.jsx';
+
+import s from './HeaderUserStatus.styl';
 
 class HeaderUserStatus extends PureComponent {
   render() {
@@ -13,33 +15,48 @@ class HeaderUserStatus extends PureComponent {
     } = this.props;
 
     const statusInput = (
-      <form onSubmit={toggleEditing}>
-        <InputTextControlled
+      <form className={s.header__statusInput} onSubmit={toggleEditing}>
+        <InputTextAreaControlled
           value={userStatus}
           name="userStatus"
           onChange={onChange}
-          placeholder="Новый статус:"
+          placeholder="Новый статус: "
         />
-        <button type="submit">Сохранить</button>
+        <button
+          className={s.header__statusInputBtm}
+          type="submit"
+        >
+            Сохранить
+        </button>
       </form>
     );
 
     const statusText = (
-      <p>
-        {userStatus}
-      </p>
+      <div className={s.header__statusTextBlock}>
+        <span>{userStatus}</span>
+      </div>
     );
 
     return (
       <div>
-        <p>
-          <div>Здравствуйте, </div>
-          <div>{userName}</div>
-          <div>
-            {isEditing ? null : <input type="button" value="Сменить статус" onClick={toggleEditing} />}
+        <div className={s.header}>
+          <div className={s.header__greeting}>
+            {`Здравствуйте, ${userName}`}
           </div>
-        </p>
-        <div>
+          {isEditing ? null : (
+            <div className={s.header__buttonOnChangeStatusBlock}>
+              <button
+                className={s.header__buttonOnChangeStatus}
+                type="button"
+                onClick={toggleEditing}
+              >
+                Сменить статус
+              </button>
+            </div>
+          )}
+        </div>
+        <div className={s.header__statusTriangle} />
+        <div className={s.header__statusBlock}>
           {isEditing ? statusInput : statusText}
         </div>
       </div>

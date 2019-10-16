@@ -1,11 +1,10 @@
-export default () => {
-  const Data = new Date();
-  const Year = Data.getFullYear();
-  const Month = Data.getMonth();
-  const Day = Data.getDate();
-  const Hour = Data.getHours();
-  const Minutes = Data.getMinutes();
-  const Seconds = Data.getSeconds();
+export default (date) => {
+  const Year = date.getFullYear();
+  const Month = date.getMonth();
+  const Day = date.getDate();
+  const Hour = date.getHours();
+  const Minutes = date.getMinutes();
+  const Seconds = date.getSeconds();
   const changeMonthRu = (m) => {
     switch (m) {
       case 0: return 'января';

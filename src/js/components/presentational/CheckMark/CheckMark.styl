@@ -1,0 +1,62 @@
+/* The checkmark */
+.checkmark {
+  display block
+  position relative
+  padding-left 25px
+  cursor pointer
+  font-size 16px
+  -webkit-user-select none
+  -moz-user-select none
+  -ms-user-select none
+  user-select none
+}
+
+.checkmark_text
+  font-family Arial
+  font-size 16px
+
+/* Hide the browser's default checkbox */
+.checkmark input {
+  position absolute
+  opacity 0
+  cursor pointer
+  height 0
+  width 0
+}
+
+/* Create a custom checkbox */
+.checkmark_check {
+  position absolute
+  top 2px
+  left 0
+  height 12px
+  width 12px
+  margin auto 0px
+  background-color #ffffff
+  border 1px solid #7E7E7E
+}
+
+/* Create the checkmark_check/indicator (hidden when not checked) */
+.checkmark_check:after {
+  content ""
+  position absolute
+  display none
+}
+
+/* Show the checkmark_check when checked */
+.checkmark input:checked ~ .checkmark_check:after {
+  display block
+}
+
+/* Style the checkmark_check/indicator */
+.checkmark .checkmark_check:after {
+  left 4px
+  top 1px
+  width 3px
+  height 6px
+  border solid #037BB8
+  border-width 0 2px 2px 0
+  -webkit-transform rotate(45deg)
+  -ms-transform rotate(45deg)
+  transform rotate(45deg)
+}

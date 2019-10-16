@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import InputTextControlled from '../../presentational/InputTextControlled/InputTextControlled.jsx';
-import InputListControlled from '../../presentational/InputListControlled/InputListControlled.jsx';
+import InputSelectControlled from '../../presentational/InputSelectControlled/InputSelectControlled.jsx';
 import InputCheckboxControlled from '../../presentational/InputCheckboxControlled/InputCheckboxControlled.jsx';
+
+import s from './Form.styl';
 
 class Form extends PureComponent {
   render() {
@@ -18,21 +20,22 @@ class Form extends PureComponent {
     return (
       <div className="openBill">
         <form className="openBillForm" onSubmit={handleSubmit}>
-          <InputListControlled
+          <InputSelectControlled
             value={data.city}
             name="city"
             onChange={handleInput}
-            placeholder="Город"
+            placeholder="Ваш город"
             error={errors.city}
             required={false}
             data={cities}
           />
-          <hr />
+          <hr className={s.form__hr} />
           <InputTextControlled
             value={data.password}
             name="password"
             onChange={handleInput}
             placeholder="Пароль"
+            description="Ваш новый пароль должен содержать не менее 5 символов."
             error={errors.password}
             type="password"
           />
@@ -41,28 +44,40 @@ class Form extends PureComponent {
             name="passwordRepeat"
             onChange={handleInput}
             placeholder="Пароль еще раз"
+            description="Повторите пароль, пожалуйста, это обезопасит вас с нами на случай ошибки."
             error={errors.passwordRepeat}
             type="password"
           />
-          <hr />
+          <hr className={s.form__hr} />
           <InputTextControlled
             value={data.email}
             name="email"
             onChange={handleInput}
             placeholder="Электронная почта"
+            description="Можно изменить адрес, указанный при регистрации."
             error={errors.email}
+            type="select"
           />
           <InputCheckboxControlled
             checked={data.acceptedEmailSending}
             name="acceptedEmailSending"
             onChange={handleBoolToggle}
             placeholder="Я согласен"
+            description="принимать актуальную информацию на емейл"
             type="checkbox"
           />
-          <button type="submit" className="submitBtn">
-            Изменить
-          </button>
-          {data.lastChangeDataTime}
+          <div className={s.form__submit}>
+            <div className={s.form__submitBtnBlock}>
+              <button type="submit" className={s.form__submitBtn}>
+                Изменить
+              </button>
+            </div>
+            <div className={s.form__lastChangeDateBlock}>
+              <span className={s.form__lastChangeDate}>
+                {`последние изменения ${data.lastChangeDataTime}`}
+              </span>
+            </div>
+          </div>
         </form>
       </div>
     );

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 function WrapperStatus(WrappedComponent) {
-  class StatusWrapped extends Component {
+  class StatusWrapped extends PureComponent {
     constructor(props) {
       super(props);
       const {

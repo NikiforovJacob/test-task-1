@@ -1,34 +1,26 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import HeaderUserStatus from '../../presentational/HeaderUserStatus/HeaderUserStatus.jsx';
-import WrapperStatus from '../../HOCs/StatusWrapper/WrapperStatus.jsx';
+import WrapperStatus from '../../HOCs/WrapperHeader/WrapperHeader.jsx';
 import Form from '../Form/Form.jsx';
 import FormWrapper from '../../HOCs/FormWrapper/FormWrapper.jsx';
+
+import styles from './AccountDataChangeForm.styl';
 
 const HeaderUserStatusWithState = WrapperStatus(HeaderUserStatus);
 const WrappedForm = FormWrapper(Form);
 
-class AccountDataChangeForm extends React.PureComponent {
-  render() {
-    const {
-      userName,
-      userStatus,
-      ...props
-    } = this.props;
-
-    return (
-      <div className="userDataChangePage">
-        <HeaderUserStatusWithState
-          userName={userName}
-          userStatus={userStatus}
-        />
-        <WrappedForm
-          {...props}
-        />
-      </div>
-    );
-  }
-}
+const AccountDataChangeForm = ({ userName, userStatus, ...props }) => (
+  <div className={styles.page}>
+    <HeaderUserStatusWithState
+      userName={userName}
+      userStatus={userStatus}
+    />
+    <WrappedForm
+      {...props}
+    />
+  </div>
+);
 
 AccountDataChangeForm.propTypes = {
   userName: PropTypes.string.isRequired,
@@ -40,4 +32,4 @@ AccountDataChangeForm.propTypes = {
   lastChangeDataTime: PropTypes.string.isRequired,
 };
 
-export default AccountDataChangeForm;
+export default memo(AccountDataChangeForm);

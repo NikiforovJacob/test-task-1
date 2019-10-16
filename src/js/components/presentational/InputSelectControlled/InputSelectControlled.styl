@@ -1,0 +1,114 @@
+.fieldSelect_compose
+    display flex
+    flex-wrap wrap
+    height auto
+    margin 32px 0px 32px 0px
+
+@media (min-width: 680px)
+  .fieldSelect
+    composes fieldSelect_compose
+    flex-direction row
+    max-width 920px
+  
+  .fieldSelect__inputNameBlock
+    width 23%
+    min-width 227px
+    height 31px
+
+  .fieldSelect__inputBlock
+    position relative
+    flex 1.03
+    height 31px
+    margin 0px
+
+  .fieldSelect__inputDescriptionBlock
+    display flex
+    flex 1
+    height 31px
+    padding-left 31px
+
+@media (max-width: 680px)
+  .fieldSelect
+    composes fieldSelect_compose
+    flex-direction column
+    width 100%
+
+  .fieldSelect__inputNameBlock
+    width 280px
+    height 31px
+    margin 0px auto
+
+  .fieldSelect__inputBlock
+    position relative
+    order 3
+    width 265px
+    height 31px
+    margin 0px auto
+
+  .fieldSelect__inputDescriptionBlock
+    display flex
+    order 2
+    width 280px
+    min-width 200px
+    height auto
+    padding-left 12px
+    margin 10px auto
+
+.fieldSelect__input:focus
+    outline none
+
+.fieldSelect__inputName
+  font-family Arial
+  font-size 21px
+  padding-left 10px
+  line-height 31px
+
+.fieldSelect__input
+  -webkit-appearance none
+  -moz-appearance none
+  appearance none
+  border 1px solid #999999
+  height 31px
+  width 100%
+  font-size 16px
+  font-family Arial
+  padding-left 12px
+
+.fieldSelect__inputBlockArrow:after
+  content '>'
+  font 26px "Consolas", monospace
+  color #037BB8
+  -webkit-transform rotate(90deg)
+  -moz-transform rotate(90deg)
+  -ms-transform rotate(90deg)
+  transform rotate(90deg)
+  right 10px
+  top -2px
+  padding 0 0 2px
+  position absolute
+  pointer-events none
+
+.fieldSelect__inputError
+  -webkit-appearance none
+  -moz-appearance none
+  appearance none
+  border 1px solid red
+  height 31px
+  width 100%
+  font-size 16px
+  font-family Arial
+  padding-left 7px
+
+.fieldSelect__inputDescription
+  font-family Arial
+  font-size 12px
+  line-height 20px
+  color #999999
+  margin auto 0px
+
+.fieldSelect__inputErrorDescription
+  font-family Arial
+  font-size 12px
+  line-height 20px
+  color #FF0000
+  margin-right auto
