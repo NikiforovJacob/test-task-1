@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cities from '../../../data/cities.json';
-import getDateRu from '../../utils/utils.jsx';
+import getDateRu, { isEmailValid } from '../../utils/utils.jsx';
 import Form from './Form.jsx';
 
 function WrapperFrom(WrappedComponent) {
@@ -18,7 +18,7 @@ function WrapperFrom(WrappedComponent) {
       } = this.props;
 
       this.state = {
-        isFetched: false,
+        isValid: true,
         data: {
           city,
           password,
@@ -35,29 +35,32 @@ function WrapperFrom(WrappedComponent) {
         },
       };
 
-      this.validConditions = {
-        password: (value) => ((value.length >= 5) ? null : 'Используйте не менее 5 символов'),
-        // eslint-disable-next-line react/destructuring-assignment
-        passwordRepeat: (value) => ((value === this.state.data.password) ? null : 'Пароли не совпадают'),
-        email: (value) => (RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i).test(value) ? null : 'Неверный E-mail'),
-        acceptedEmailSending: () => null,
-        lastChangeDataTime: () => null,
-        city: () => null,
+      this.requaredFieldsValid = {
+        city: {
+          ruName: 'город',
+          validCondition: () => null,
+        },
+        password: {
+          ruName: 'пароль',
+          validCondition: (value) => ((value.length >= 5) ? null : 'Используйте не менее 5 символов'),
+        },
+        passwordRepeat: {
+          ruName: 'пароль',
+          // eslint-disable-next-line react/destructuring-assignment
+          validCondition: (value) => ((value === this.state.data.password) ? null : 'Пароли не совпадают'),
+        },
+        email: {
+          ruName: 'E-mail',
+          validCondition: (value) => (isEmailValid(value) ? null : 'Неверный E-mail'),
+        },
       };
 
       this.validate = (name, value) => {
         if (value.length === 0) {
-          const ruFielsNameMap = new Map([
-            ['password', 'пароль'],
-            ['passwordRepeat', 'пароль'],
-            ['email', 'E-mail'],
-            ['city', 'город'],
-          ]);
-          this.setState(({ errors }) => ({ errors: { ...errors, [name]: `Укажите ${ruFielsNameMap.get(name)}` } }));
+          this.setState(({ errors }) => ({ errors: { ...errors, [name]: `Укажите ${this.requaredFieldsValid[name].ruName}` } }));
           return false;
         }
-
-        const error = this.validConditions[name](value);
+        const error = this.requaredFieldsValid[name].validCondition(value);
         if (!(error === null)) {
           this.setState(({ errors }) => ({ errors: { ...errors, [name]: error } }));
           return false;
@@ -89,13 +92,14 @@ function WrapperFrom(WrappedComponent) {
             return item;
           }
           return acc;
-        }, { population: 0 });
+        }, { population: 0 })
+        .map((c) => c.city);
     }
 
     handleSubmit = (e) => {
       e.preventDefault();
-      const { data } = this.state;
-      const isValid = Object.keys(data).reduce(
+      const { data, errors } = this.state;
+      const isValid = Object.keys(errors).reduce(
         (sum, item) => this.validate(item, data[item]) && sum,
         true,
       );

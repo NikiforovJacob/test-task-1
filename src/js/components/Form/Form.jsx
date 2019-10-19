@@ -99,7 +99,7 @@ Form.propTypes = {
     passwordRepeat: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
   }).isRequired,
-  cities: PropTypes.PropTypes.arrayOf(PropTypes.object).isRequired,
+  cities: PropTypes.PropTypes.arrayOf(PropTypes.string).isRequired,
   handleInput: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleBoolToggle: PropTypes.func.isRequired,
