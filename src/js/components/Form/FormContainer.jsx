@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cities from '../../../data/cities.json';
-import getDateRu, { isEmailValid } from '../../utils/utils.jsx';
-import Form from './Form.jsx';
+import getDateRu from '../../utils/utils.jsx';
 
 function WrapperFrom(WrappedComponent) {
   class FormWrapped extends PureComponent {
@@ -18,7 +17,6 @@ function WrapperFrom(WrappedComponent) {
       } = this.props;
 
       this.state = {
-        isValid: true,
         data: {
           city,
           password,
@@ -27,46 +25,6 @@ function WrapperFrom(WrappedComponent) {
           acceptedEmailSending,
           lastChangeDataTime,
         },
-        errors: {
-          city: '',
-          password: '',
-          passwordRepeat: '',
-          email: '',
-        },
-      };
-
-      this.requaredFieldsValid = {
-        city: {
-          ruName: 'город',
-          validCondition: () => null,
-        },
-        password: {
-          ruName: 'пароль',
-          validCondition: (value) => ((value.length >= 5) ? null : 'Используйте не менее 5 символов'),
-        },
-        passwordRepeat: {
-          ruName: 'пароль',
-          // eslint-disable-next-line react/destructuring-assignment
-          validCondition: (value) => ((value === this.state.data.password) ? null : 'Пароли не совпадают'),
-        },
-        email: {
-          ruName: 'E-mail',
-          validCondition: (value) => (isEmailValid(value) ? null : 'Неверный E-mail'),
-        },
-      };
-
-      this.validate = (name, value) => {
-        if (value.length === 0) {
-          this.setState(({ errors }) => ({ errors: { ...errors, [name]: `Укажите ${this.requaredFieldsValid[name].ruName}` } }));
-          return false;
-        }
-        const error = this.requaredFieldsValid[name].validCondition(value);
-        if (!(error === null)) {
-          this.setState(({ errors }) => ({ errors: { ...errors, [name]: error } }));
-          return false;
-        }
-        this.setState(({ errors }) => ({ errors: { ...errors, [name]: '' } }));
-        return true;
       };
 
       this.cities = cities
@@ -98,11 +56,8 @@ function WrapperFrom(WrappedComponent) {
 
     handleSubmit = (e) => {
       e.preventDefault();
-      const { data, errors } = this.state;
-      const isValid = Object.keys(errors).reduce(
-        (sum, item) => this.validate(item, data[item]) && sum,
-        true,
-      );
+      const { isValid } = this.props;
+      const { data } = this.state;
 
       if (isValid) {
         const newStateData = { data: { ...data, lastChangeDataTime: getDateRu(new Date()) } };
@@ -112,16 +67,16 @@ function WrapperFrom(WrappedComponent) {
 
     handleInput = (e) => {
       const { value, name } = e.currentTarget;
-      this.setState(({ data, errors }) => ({
+      const { data: d } = this.state;
+      const { validateInput, setStateErrors, errors } = this.props;
+
+      const newErrors = validateInput(name, value, d);
+      this.setState(({ data }) => ({
         data: {
           ...data,
           [name]: value,
         },
-        errors: {
-          ...errors,
-          [name]: '',
-        },
-      }));
+      }), setStateErrors({ errors: { ...errors, ...newErrors } }));
     };
 
     handleBoolToggle = (e) => {
@@ -137,6 +92,7 @@ function WrapperFrom(WrappedComponent) {
     render() {
       return (
         <WrappedComponent
+          {...this.props}
           {...this.state}
           cities={this.cities}
           handleInput={this.handleInput}
@@ -147,15 +103,26 @@ function WrapperFrom(WrappedComponent) {
     }
   }
 
+  FormWrapped.defaultProps = {
+    isValid: true,
+    errors: {},
+    validateInput: () => null,
+    setStateErrors: () => null,
+  };
+
   FormWrapped.propTypes = {
     city: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     acceptedEmailSending: PropTypes.bool.isRequired,
     lastChangeDataTime: PropTypes.string.isRequired,
+    isValid: PropTypes.bool,
+    errors: PropTypes.objectOf(PropTypes.string),
+    validateInput: PropTypes.func,
+    setStateErrors: PropTypes.func,
   };
 
   return FormWrapped;
 }
 
-export default WrapperFrom(Form);
+export default WrapperFrom;
