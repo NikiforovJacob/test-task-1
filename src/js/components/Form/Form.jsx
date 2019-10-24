@@ -9,6 +9,7 @@ import s from './Form.styl';
 class Form extends PureComponent {
   render() {
     const {
+      isValid,
       data,
       errors,
       cities,
@@ -68,7 +69,7 @@ class Form extends PureComponent {
           />
           <div className={s.form__submit}>
             <div className={s.form__submitBtnBlock}>
-              <button type="submit" className={s.form__submitBtn}>
+              <button type="submit" className={isValid ? s.form__submitBtn_Enable : s.form__submitBtn_Disable}>
                 Изменить
               </button>
             </div>
@@ -85,6 +86,7 @@ class Form extends PureComponent {
 }
 
 Form.propTypes = {
+  isValid: PropTypes.bool.isRequired,
   data: PropTypes.shape({
     city: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
@@ -99,7 +101,7 @@ Form.propTypes = {
     passwordRepeat: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
   }).isRequired,
-  cities: PropTypes.PropTypes.arrayOf(PropTypes.object).isRequired,
+  cities: PropTypes.PropTypes.arrayOf(PropTypes.string).isRequired,
   handleInput: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleBoolToggle: PropTypes.func.isRequired,

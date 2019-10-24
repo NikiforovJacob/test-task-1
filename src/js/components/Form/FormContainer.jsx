@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cities from '../../../data/cities.json';
 import getDateRu from '../../utils/utils.jsx';
-import Form from './Form.jsx';
 
 function WrapperFrom(WrappedComponent) {
   class FormWrapped extends PureComponent {
@@ -18,7 +17,6 @@ function WrapperFrom(WrappedComponent) {
       } = this.props;
 
       this.state = {
-        isFetched: false,
         data: {
           city,
           password,
@@ -27,43 +25,6 @@ function WrapperFrom(WrappedComponent) {
           acceptedEmailSending,
           lastChangeDataTime,
         },
-        errors: {
-          city: '',
-          password: '',
-          passwordRepeat: '',
-          email: '',
-        },
-      };
-
-      this.validConditions = {
-        password: (value) => ((value.length >= 5) ? null : 'Используйте не менее 5 символов'),
-        // eslint-disable-next-line react/destructuring-assignment
-        passwordRepeat: (value) => ((value === this.state.data.password) ? null : 'Пароли не совпадают'),
-        email: (value) => (RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i).test(value) ? null : 'Неверный E-mail'),
-        acceptedEmailSending: () => null,
-        lastChangeDataTime: () => null,
-        city: () => null,
-      };
-
-      this.validate = (name, value) => {
-        if (value.length === 0) {
-          const ruFielsNameMap = new Map([
-            ['password', 'пароль'],
-            ['passwordRepeat', 'пароль'],
-            ['email', 'E-mail'],
-            ['city', 'город'],
-          ]);
-          this.setState(({ errors }) => ({ errors: { ...errors, [name]: `Укажите ${ruFielsNameMap.get(name)}` } }));
-          return false;
-        }
-
-        const error = this.validConditions[name](value);
-        if (!(error === null)) {
-          this.setState(({ errors }) => ({ errors: { ...errors, [name]: error } }));
-          return false;
-        }
-        this.setState(({ errors }) => ({ errors: { ...errors, [name]: '' } }));
-        return true;
       };
 
       this.cities = cities
@@ -89,16 +50,14 @@ function WrapperFrom(WrappedComponent) {
             return item;
           }
           return acc;
-        }, { population: 0 });
+        }, { population: 0 })
+        .map((c) => c.city);
     }
 
     handleSubmit = (e) => {
       e.preventDefault();
+      const { isValid } = this.props;
       const { data } = this.state;
-      const isValid = Object.keys(data).reduce(
-        (sum, item) => this.validate(item, data[item]) && sum,
-        true,
-      );
 
       if (isValid) {
         const newStateData = { data: { ...data, lastChangeDataTime: getDateRu(new Date()) } };
@@ -108,16 +67,16 @@ function WrapperFrom(WrappedComponent) {
 
     handleInput = (e) => {
       const { value, name } = e.currentTarget;
-      this.setState(({ data, errors }) => ({
+      const { data: d } = this.state;
+      const { validateInput, setStateErrors, errors } = this.props;
+
+      const newErrors = validateInput(name, value, d);
+      this.setState(({ data }) => ({
         data: {
           ...data,
           [name]: value,
         },
-        errors: {
-          ...errors,
-          [name]: '',
-        },
-      }));
+      }), setStateErrors({ errors: { ...errors, ...newErrors } }));
     };
 
     handleBoolToggle = (e) => {
@@ -133,6 +92,7 @@ function WrapperFrom(WrappedComponent) {
     render() {
       return (
         <WrappedComponent
+          {...this.props}
           {...this.state}
           cities={this.cities}
           handleInput={this.handleInput}
@@ -143,15 +103,26 @@ function WrapperFrom(WrappedComponent) {
     }
   }
 
+  FormWrapped.defaultProps = {
+    isValid: true,
+    errors: {},
+    validateInput: () => null,
+    setStateErrors: () => null,
+  };
+
   FormWrapped.propTypes = {
     city: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     acceptedEmailSending: PropTypes.bool.isRequired,
     lastChangeDataTime: PropTypes.string.isRequired,
+    isValid: PropTypes.bool,
+    errors: PropTypes.objectOf(PropTypes.string),
+    validateInput: PropTypes.func,
+    setStateErrors: PropTypes.func,
   };
 
   return FormWrapped;
 }
 
-export default WrapperFrom(Form);
+export default WrapperFrom;

@@ -9,8 +9,6 @@ class InputSelectControlled extends PureComponent {
       name,
       description,
       error,
-      labelClass,
-      inputClass,
       placeholder,
       data,
       ...props
@@ -27,7 +25,7 @@ class InputSelectControlled extends PureComponent {
               {...props}
               name={name}
             >
-              {[{ city: '' }, ...data].map((city) => <option key={city.city} value={city.city}>{city.city}</option>)}
+              {['', ...data].map((city) => <option key={city} value={city}>{city}</option>)}
             </select>
             {!!error && <span className={s.fieldSelect__inputErrorDescription}>{error}</span>}
           </div>
@@ -45,9 +43,6 @@ InputSelectControlled.defaultProps = {
   description: '',
   error: '',
   required: false,
-  autoComplete: 'off',
-  labelClass: '',
-  inputClass: '',
 };
 
 InputSelectControlled.propTypes = {
@@ -55,14 +50,11 @@ InputSelectControlled.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
-  data: PropTypes.PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.PropTypes.arrayOf(PropTypes.string).isRequired,
   description: PropTypes.string,
   error: PropTypes.string,
   type: PropTypes.string,
   required: PropTypes.bool,
-  autoComplete: PropTypes.string,
-  labelClass: PropTypes.string,
-  inputClass: PropTypes.string,
 };
 
 export default InputSelectControlled;

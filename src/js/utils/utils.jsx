@@ -23,3 +23,5 @@ export default (date) => {
   };
   return `${Day} ${changeMonthRu(Month)} ${Year} в ${Hour}:${Minutes}:${Seconds}`;
 };
+
+export const isEmailValid = (value) => RegExp(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i).test(value);

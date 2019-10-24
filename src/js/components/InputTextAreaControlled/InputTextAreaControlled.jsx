@@ -39,7 +39,6 @@ class InpuTextControlled extends PureComponent {
 }
 
 InpuTextControlled.defaultProps = {
-  type: 'text',
   description: '',
   error: '',
   required: false,
@@ -53,7 +52,6 @@ InpuTextControlled.propTypes = {
   placeholder: PropTypes.string.isRequired,
   description: PropTypes.string,
   error: PropTypes.string,
-  type: PropTypes.string,
   required: PropTypes.bool,
   autoComplete: PropTypes.string,
 };
